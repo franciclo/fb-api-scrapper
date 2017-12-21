@@ -17,6 +17,10 @@ const { MONGO_URL, DATABASE } = process.env
 
     ;(async function looper () {
       const lowest = await getLowest()
+      if (!lowest) {
+        console.log('finish scraping')
+        return
+      }
       console.log('------------------------------')
       console.log(`  scraping ${lowest.pageId}`)
 
