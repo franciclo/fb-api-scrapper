@@ -27,7 +27,7 @@ pages : {
 }
 ```
 
-Likes have a unique compound index to ensure we get one user per page
+Likes have a unique compound index to ensure we get one user per page.
 
 ```
 likes : {
