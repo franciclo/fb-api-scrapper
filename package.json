@@ -12,7 +12,7 @@
   "dependencies": {
     "dotenv": "^4.0.0",
     "limiter": "^1.1.2",
-    "mongodb": "^3.0.0-rc0",
+    "mongodb": "^2.2.33",
     "requestretry": "^1.12.2"
   }
 }
