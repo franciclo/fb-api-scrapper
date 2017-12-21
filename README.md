@@ -12,6 +12,23 @@ pages : {
     "lastDate" : Date
 }
 ```
+
+Pages collection must be manually initialized with a list of all the pages you want, like so:
+
+```
+pages : {
+    "Id" : Integer, // Integer incremental id
+    "pageId" : String, // Facebook Page Id
+    "counter" : Integer, // 0
+    "pageLink" : String, // https://graph.facebook.com/PAGE_ID/feed/?fields=likes,created_time&limit=1&access_token=ACCESS_TOKEN
+    "postLink" : String, // null
+    "likeLink" : String, // null
+    "lastDate" : Date  // Current datetime
+}
+```
+
+Likes have a unique compound index to ensure we get one user per page
+
 ```
 likes : {
     "page_id" : ObjectId, 
