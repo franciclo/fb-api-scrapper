@@ -33,7 +33,7 @@ const { MONGO_URL, DATABASE } = process.env
       await savePage(likeLink, postLink, lastDate, counter, lowest._id)
 
       console.log(`  fetched (${likes.length}) / new (${savedLikes}) = ${savedRatio}`)
-      console.log('------------------------------\n\n')
+      console.log('------------------------------\n')
 
       restart()
     })()
