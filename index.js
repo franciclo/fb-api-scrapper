@@ -42,3 +42,7 @@ const { MONGO_URL, DATABASE } = process.env
     console.log(err)
   }
 })()
+
+process.on('unhandledRejection', error => {
+  console.log('unhandledRejection', error);
+});
