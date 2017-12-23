@@ -2,6 +2,7 @@ require('dotenv').config()
 const { MongoClient } = require('mongodb')
 const { getAllLikes } = require('./lib/get-likes')
 let { saveLikes, savePage, getLowest } = require('./lib/db')
+
 const { MONGO_URL, DATABASE } = process.env
 
 ;(async function() {
@@ -15,32 +16,26 @@ const { MONGO_URL, DATABASE } = process.env
     savePage = savePage.bind({ Pages })
     saveLikes = saveLikes.bind({ Likes })
 
-    ;(async function looper () {
+    ;(async function restart () {
       const lowest = await getLowest()
       if (!lowest) {
-        console.log('finish scraping')
+        console.log('****** my work here is done ******')
         return
       }
+
       console.log('------------------------------')
-      console.log(`  scraping ${lowest.pageId}`)
+      console.log(`  Getting likes from ${lowest.pageId}`)
 
-      const {
-        likeLink,
-        postLink,
-        lastDate,
-        likes
-      } = await getAllLikes(lowest.likeLink, lowest.postLink || lowest.pageLink, lowest.lastDate, [])
+      const { likeLink, postLink, lastDate, likes } = await getAllLikes(lowest.likeLink, lowest.postLink, lowest.lastDate, [])
       const savedLikes = await saveLikes(likes, lowest._id)
+      const savedRatio = Math.round((savedLikes / likes.length) * 100) / 100
       let counter = lowest.counter + savedLikes
-
-      console.log(`  likes (${likes.length}) / new (${savedLikes}) = ${Math.round((savedLikes / likes.length) * 100) / 100}`)
-      console.log('----------------------------')
-    
       await savePage(likeLink, postLink, lastDate, counter, lowest._id)
 
-      console.log('=============================')
+      console.log(`  fetched (${likes.length}) / new (${savedLikes}) = ${savedRatio}`)
+      console.log('------------------------------\n\n')
 
-      looper()
+      restart()
     })()
     
   } catch (err) {
